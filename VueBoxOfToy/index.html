@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Box of Toys</title>
+</head>
+<body>
+    <div id="app">
+        <form v-on:submit.prevent="addToy">
+            <label for="name">Name:</label>
+            <input id="name" type="text" v-model="name" required>
+            <label for="color">Color:</label>
+            <input id="color" type="text" v-model="color" required>
+            <label for="cost">Cost:</label>
+            <input id="cost" type="text" v-model="cost" required>
+            <button type="submit">Add Toy</button>
+        </form>
+        {{message}}
+        <ol>
+            <li v-for="toy in toys">
+                {{ toy.name }} {{ toy.color }} {{ toy.cost }}
+            </li>
+        </ol>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                toys: [],
+                name: '',
+                color: '',
+                cost: '',
+                message: ''
+            },
+            methods: {
+                addToy: function () {
+                    if (this.name == '' || this.color == '' || this.cost == '') {
+                        this.message = "Can't add toy because toy was not defined or their was a error!";
+                    } else {
+                        let toy = { name: this.name, color: this.color, cost: this.cost };
+                        this.toys.push(toy);
+                        this.name = '';
+                        this.color = '';
+                        this.cost = '';
+                        this.message = '';
+                    }  
+                }
+            }
+        })
+    </script>
+</body>
+</html>
