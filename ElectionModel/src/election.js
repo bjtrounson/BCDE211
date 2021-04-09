@@ -19,13 +19,23 @@ class ElectionList {
         this.beforeEditVoteCache = 0
     }
 
+    filterAbove(newVotes) {
+        var filter = this.allMyParties.filter(function (party) {
+            return party.votes >= newVotes;
+        })
+        return filter
+    }
+
+    filterBelow(newVotes) {
+        var filter = this.allMyParties.filter(function (party) {
+            return party.votes <= newVotes;
+        })
+        return filter
+    }
+
     getAllParties() { 
         return this.allMyParties
     }
-
-    /*getTopParties() { 
-        return this.allMyParties.filter()
-    }*/
 
     load() {
         return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
@@ -49,10 +59,6 @@ class ElectionList {
         const index = this.allMyParties.findIndex(party => party.name === targetPartyName)
         this.allMyParties.splice(index, 1)
     }
-
-    /* remainingParties() {  
-
-    }*/
 
     startEditing(party) { 
         this.beforeEditNameCache = party.name
