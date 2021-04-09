@@ -210,7 +210,7 @@ describe('ElectionList', function () {
   })
 
   // FEATURE 14. Find a part given a search criterion
-  describe('finding a task', function () {
+  describe('finding a party', function () {
     it('should find nothing with an empty party list', function () {
       var thePartyList = new ElectionList()
       const actualFoundParty = thePartyList.findParty('a')
