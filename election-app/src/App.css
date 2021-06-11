@@ -1,0 +1,31 @@
+.App {
+  text-align: center;
+}
+
+table {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+thead {
+  flex: 0 0 auto;
+}
+
+tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+tbody{
+  flex: 1 1 auto;
+  display: block;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+tfoot {
+  overflow-x: hidden;
+}
