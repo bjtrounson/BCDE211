@@ -7,6 +7,10 @@ export declare enum SortStates {
     Name = 0,
     Votes = 1
 }
+export declare enum FilterStates {
+    Above = 0,
+    Below = 1
+}
 export interface ElectionController {
     model: ElectionList;
 }
@@ -16,7 +20,7 @@ export declare class ElectionController implements ElectionController {
     addParty(name: string, votes: number): void;
     getParties(): Array<Party>;
     deleteParty(targetPartyIndex: number): void;
-    findParties(targetParty: string): Array<Party>;
+    findParties(targetName: string, targetVotes: number): Party | undefined;
     clearParties(): void;
     saveParties(): void;
     loadParties(): void;
@@ -25,5 +29,6 @@ export declare class ElectionController implements ElectionController {
     getPartyPercentage(party: Party): number;
     getEditPartyCache(): EditCache;
     sortParties(sortState: SortStates): void;
+    filterParties(filterLimit: number, filterState: FilterStates): Array<Party> | null;
 }
 export {};

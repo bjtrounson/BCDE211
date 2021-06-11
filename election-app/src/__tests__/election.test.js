@@ -143,16 +143,16 @@ describe('ElectionList', function () {
       thePartyList.addParty('National', 10000)
       thePartyList.addParty('Labour', 20000)
       thePartyList.addParty('Greens', 2000)
-      it('should get parties with similar or the same party name to the top of the array', function () {
-        var filterName = 'National'
-        const actualOrderedPartyNames = getNames(thePartyList.filterNames(filterName))
-        const expectedSortedPartyNames = ['National', 'National']
+      it('should get parties with less or equal to 10000', function () {
+        var filterLimit = 10000
+        const actualOrderedPartyNames = getNames(thePartyList.filterBelowVotes(filterLimit))
+        const expectedSortedPartyNames = ['National', 'National', 'Greens']
         expect(expectedSortedPartyNames).toEqual(actualOrderedPartyNames)
       })
       it('should get parties with greater or equal to 10000 votes', function () {
-        var filterVote = 10000
-        const actualOrderedPartyNames = getVotes(thePartyList.filterVotes(filterVote))
-        const expectedSortedPartyNames = [10000, 10000]
+        var filterLimit = 10000
+        const actualOrderedPartyNames = getNames(thePartyList.filterAboveVotes(filterLimit))
+        const expectedSortedPartyNames = ['National', 'National', 'Labour']
         expect(expectedSortedPartyNames).toEqual(actualOrderedPartyNames)
       })
     })
@@ -163,7 +163,7 @@ describe('ElectionList', function () {
       thePartyList.addParty('National', 10000)
       thePartyList.addParty('Labour', 20000)
       thePartyList.addParty('Greens', 2000)
-      thePartyList.removeParty('Labour')
+      thePartyList.removeParty(1)
       it('should remove that party', function () {
         const expectedPartyNames = ['National', 'Greens']
         const actualPartyNames = getNames(thePartyList.allMyParties)
@@ -260,7 +260,7 @@ describe('ElectionList', function () {
         thePartyList.addParty('National', 10000)
         thePartyList.addParty('Labour', 20000)
         thePartyList.addParty('Greens', 2000)
-        const actualFoundParty = thePartyList.findParty('Labour')
+        const actualFoundParty = thePartyList.findParty('Labour', 20000)
         expect(actualFoundParty).toBeDefined()
         const expectedFoundName = 'Labour'
         const actualFoundName = actualFoundParty.name
@@ -273,7 +273,7 @@ describe('ElectionList', function () {
         thePartyList.addParty('Labour', 20000)
         thePartyList.addParty('Labour', 20000)
         thePartyList.addParty('Greens', 2000)
-        const actualFoundParty = thePartyList.findParty('Labour')
+        const actualFoundParty = thePartyList.findParty('Labour', 20000)
         expect(actualFoundParty).toBeDefined()
         const expectedFoundName = 'Labour'
         const actualFoundName = actualFoundParty.name
@@ -281,6 +281,30 @@ describe('ElectionList', function () {
         const expectedFoundId = 2
         const actualFoundId = actualFoundParty.id
         expect(actualFoundId).toBe(expectedFoundId)
+      })
+    })
+
+    describe('calculate total party votes', function () {
+      it('should calculate the total votes in the whole party list', function() {
+        var thePartyList = new ElectionList()
+        thePartyList.addParty('National', 1000)
+        thePartyList.addParty('Labour', 1000)
+        thePartyList.addParty('Greens', 2000)
+        const expectedTotalVotes = 4000
+        const actualTotalVotes = thePartyList.calulateTotalPartyVotes()
+        expect(actualTotalVotes).toEqual(expectedTotalVotes)
+      })
+    })
+
+    describe('calculate party vote percentages', function () {
+      it('should provide percentage for each party in the list', function () {
+        var thePartyList = new ElectionList()
+        thePartyList.addParty('National', 1000)
+        thePartyList.addParty('Labour', 1000)
+        thePartyList.addParty('Greens', 2000)
+        const expectedVotePercentage = [25, 25, 50]
+        const actualVotePercentage = [thePartyList.calulatePartyPercentage(thePartyList.allMyParties[0]), thePartyList.calulatePartyPercentage(thePartyList.allMyParties[1]), thePartyList.calulatePartyPercentage(thePartyList.allMyParties[2])]
+        expect(actualVotePercentage).toEqual(expectedVotePercentage)
       })
     })
   })

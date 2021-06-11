@@ -42,20 +42,20 @@ export class ElectionList implements ElectionList {
         this.beforeEditVoteCache = 0
     }
 
-    filterVotes(filterVotes: number) {
+    filterAboveVotes(filterLimit: number) {
         var filterArray: Array<Party> = []
         this.allMyParties.forEach(party => {
-            if (party.votes === filterVotes) {
+            if (party.votes >= filterLimit) {
                 filterArray.push(party)
             }
         })
         return filterArray
     }
 
-    filterNames(filterNames: string) {
+    filterBelowVotes(filterLimit: number) {
         var filterArray: Array<Party> = []
         this.allMyParties.forEach(party => {
-            if (party.name === filterNames) {
+            if (party.votes <= filterLimit) {
                 filterArray.push(party)
             }
         })
@@ -109,6 +109,7 @@ export class ElectionList implements ElectionList {
                 }
                 break;
             case Editing.Cancel:
+                this.editedPartyIndex = null
                 this.editedParty = null
                 party.name = this.beforeEditNameCache
                 party.votes = this.beforeEditVoteCache
@@ -146,8 +147,8 @@ export class ElectionList implements ElectionList {
         })
     }
 
-    findParty(targetParty: string) { 
-        return this.allMyParties.find((party) => party.name === targetParty)
+    findParty(targetName: string, targetVotes: number) { 
+        return this.allMyParties.find((party) => party.name === targetName && party.votes === targetVotes)
     }
 
     calulateTotalPartyVotes(): number {
@@ -160,6 +161,9 @@ export class ElectionList implements ElectionList {
 
     calulatePartyPercentage(party: Party): number {
         var votePercentage: number = (party.votes / this.calulateTotalPartyVotes()) * 100
-        return votePercentage
+        if (votePercentage >= 100) {
+            return 100
+        }
+        return parseInt(votePercentage.toFixed(2))
     }
 }

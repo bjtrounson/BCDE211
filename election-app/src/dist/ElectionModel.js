@@ -20,19 +20,19 @@ export class ElectionList {
         this.beforeEditNameCache = '';
         this.beforeEditVoteCache = 0;
     }
-    filterVotes(filterVotes) {
+    filterAboveVotes(filterLimit) {
         var filterArray = [];
         this.allMyParties.forEach(party => {
-            if (party.votes === filterVotes) {
+            if (party.votes >= filterLimit) {
                 filterArray.push(party);
             }
         });
         return filterArray;
     }
-    filterNames(filterNames) {
+    filterBelowVotes(filterLimit) {
         var filterArray = [];
         this.allMyParties.forEach(party => {
-            if (party.name === filterNames) {
+            if (party.votes <= filterLimit) {
                 filterArray.push(party);
             }
         });
@@ -80,6 +80,7 @@ export class ElectionList {
                 }
                 break;
             case Editing.Cancel:
+                this.editedPartyIndex = null;
                 this.editedParty = null;
                 party.name = this.beforeEditNameCache;
                 party.votes = this.beforeEditVoteCache;
@@ -113,8 +114,8 @@ export class ElectionList {
             return 0;
         });
     }
-    findParty(targetParty) {
-        return this.allMyParties.find((party) => party.name === targetParty);
+    findParty(targetName, targetVotes) {
+        return this.allMyParties.find((party) => party.name === targetName && party.votes === targetVotes);
     }
     calulateTotalPartyVotes() {
         var totalVotes = 0;
@@ -125,6 +126,9 @@ export class ElectionList {
     }
     calulatePartyPercentage(party) {
         var votePercentage = (party.votes / this.calulateTotalPartyVotes()) * 100;
-        return votePercentage;
+        if (votePercentage >= 100) {
+            return 100;
+        }
+        return parseInt(votePercentage.toFixed(2));
     }
 }

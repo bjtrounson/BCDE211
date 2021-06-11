@@ -1,8 +1,14 @@
+import { Party } from "./ElectionModel";
 export var SortStates;
 (function (SortStates) {
     SortStates[SortStates["Name"] = 0] = "Name";
     SortStates[SortStates["Votes"] = 1] = "Votes";
 })(SortStates || (SortStates = {}));
+export var FilterStates;
+(function (FilterStates) {
+    FilterStates[FilterStates["Above"] = 0] = "Above";
+    FilterStates[FilterStates["Below"] = 1] = "Below";
+})(FilterStates || (FilterStates = {}));
 export class ElectionController {
     constructor(model) {
         this.model = model;
@@ -16,11 +22,11 @@ export class ElectionController {
     deleteParty(targetPartyIndex) {
         this.model.removeParty(targetPartyIndex);
     }
-    findParties(targetParty) {
-        if (!targetParty || targetParty === '') {
-            return this.model.getAllParties();
+    findParties(targetName, targetVotes) {
+        if (this.model.findParty(targetName, targetVotes) === undefined) {
+            return new Party(0, "", 0);
         }
-        return this.model.filterNames(targetParty);
+        return this.model.findParty(targetName, targetVotes);
     }
     clearParties() {
         this.model.removeAllParties();
@@ -53,6 +59,16 @@ export class ElectionController {
                 break;
             default:
                 break;
+        }
+    }
+    filterParties(filterLimit, filterState) {
+        switch (filterState) {
+            case FilterStates.Above:
+                return this.model.filterAboveVotes(filterLimit);
+            case FilterStates.Below:
+                return this.model.filterBelowVotes(filterLimit);
+            default:
+                return null;
         }
     }
 }

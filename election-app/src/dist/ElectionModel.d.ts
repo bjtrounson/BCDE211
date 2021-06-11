@@ -25,8 +25,8 @@ export declare class ElectionList implements ElectionList {
     beforeEditNameCache: string;
     beforeEditVoteCache: number;
     constructor();
-    filterVotes(filterVotes: number): Party[];
-    filterNames(filterNames: string): Party[];
+    filterAboveVotes(filterLimit: number): Party[];
+    filterBelowVotes(filterLimit: number): Party[];
     getAllParties(): Party[];
     load(): Array<Party>;
     save(): void;
@@ -36,7 +36,7 @@ export declare class ElectionList implements ElectionList {
     removeAllParties(): void;
     sortPartiesNames(): void;
     sortPartiesVotes(): void;
-    findParty(targetParty: string): Party | undefined;
+    findParty(targetName: string, targetVotes: number): Party | undefined;
     calulateTotalPartyVotes(): number;
     calulatePartyPercentage(party: Party): number;
 }

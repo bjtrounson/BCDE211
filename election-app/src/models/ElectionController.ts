@@ -10,6 +10,11 @@ export enum SortStates {
     Votes
 }
 
+export enum FilterStates {
+    Above,
+    Below
+}
+
 export interface ElectionController {
     model: ElectionList
 }
@@ -33,11 +38,11 @@ export class ElectionController implements ElectionController {
         this.model.removeParty(targetPartyIndex)
     }
 
-    findParties(targetParty: string): Array<Party> {
-        if (!targetParty || targetParty === '' ) {
-            return this.model.getAllParties();
+    findParties(targetName: string, targetVotes: number) {
+        if (this.model.findParty(targetName, targetVotes) === undefined) {
+            return new Party(0, "", 0);
         }
-        return this.model.filterNames(targetParty)
+        return this.model.findParty(targetName, targetVotes)
     }
 
     clearParties() {
@@ -78,6 +83,17 @@ export class ElectionController implements ElectionController {
                 break;
             default:
                 break;
+        }
+    }
+
+    filterParties(filterLimit: number, filterState: FilterStates): Array<Party> | null {
+        switch (filterState) {
+            case FilterStates.Above:
+                return this.model.filterAboveVotes(filterLimit);
+            case FilterStates.Below:
+                return this.model.filterBelowVotes(filterLimit);
+            default:
+                return null
         }
     }
 }
