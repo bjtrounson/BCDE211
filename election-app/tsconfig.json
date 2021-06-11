@@ -30,7 +30,7 @@
     "outDir": "src/dist",
     "skipLibCheck": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "noEmit": true,
     "jsx": "react-jsx"
   },
   "include": [

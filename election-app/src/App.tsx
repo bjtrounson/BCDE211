@@ -35,6 +35,7 @@ function App() {
   }
 
   useEffect(() => {
+    console.log("TRIHARD")
     controller.loadParties()
     setParties(controller.getParties())
   // eslint-disable-next-line react-hooks/exhaustive-deps
