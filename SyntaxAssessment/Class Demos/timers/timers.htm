@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+setTimeout(() => {console.log('done1')}, 2000)
+setTimeout(() => {console.log('done2')}, 5000)
+setTimeout(() => {console.log('done3')}, 10000)
+
+let interval_1 = setInterval(() => {console.log(new Date())}, 1000)
+
+setTimeout(() => {clearInterval(interval_1)}, 10000)
+
+
+</script>
+</body>
+</html>

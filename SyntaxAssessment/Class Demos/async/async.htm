@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+/*
+function f1 () {
+    setTimeout( () => {console.log('one'); return 1}, 10000)
+}
+
+function f2 () {
+    setTimeout( () => {console.log('two'); return 2, 2000})
+}
+*/
+
+let p1 = new Promise( (resolve, reject)=> {
+    setTimeout(() => {resolve('one')} ,10000)
+})
+
+let p2 = new Promise( (resolve, reject)=> {
+    setTimeout(() => {resolve('two')} ,2000)
+})
+
+/*
+let v1 = f1()
+console.log(v1)
+let v2 = f2()
+console.log(v2)
+*/
+
+async function f3 () {
+    let v1 = await p1
+    console.log(v1)
+    let v2 = await p2
+    console.log(v2)
+}
+
+f3()
+
+</script>
+</body>
+</html>

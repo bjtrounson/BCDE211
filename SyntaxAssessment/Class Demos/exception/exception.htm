@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <input type="number" id="top" value="10">
+    <br>
+    <input type="number" id="bottom" value="5">
+    <br>
+    <input type="button" id="divide" value="divide">
+    <p id="message"></p>
+    <script>
+        class EvilError extends Error {
+            constructor(message) {
+                super(message)
+                this.name = message
+            }
+        }
+        function div (a,b) {
+            if (b === 0) {
+                throw 'divide by zero error'
+            }
+            if (b === 13) {
+                throw new Error('unlucky')
+            }
+            if ( b === 666) {
+                throw new EvilError(666)
+            }
+
+            return a / b 
+        }
+
+        function divide(e) {
+            let message = document.getElementById('message')
+            message.innerText = ''
+            let a = Number(document.getElementById('top').value)
+            let b = Number(document.getElementById('bottom').value)
+            try {
+                let answer = div(a,b)
+                message.innerText = `${a} / ${b} = ${answer}`
+            } catch (error) {
+                console.log(error)
+                console.log( typeof error)
+                message.innerText = 'woops!'
+            } finally {
+                message.innerText += '\ntry again'
+            }
+        }
+
+        document.getElementById('divide').addEventListener('click', divide, false)
+    </script>
+</body>
+</html>

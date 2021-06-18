@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+var p1 = new Promise ((resolve, reject) => {
+    resolve('ok')
+    // reject('opps')
+})
+
+p1
+.then(value => {
+    console.log('in the #1')
+    console.log(value)
+    value += '!!'
+    return value
+})
+.then(value => {
+    console.log('in then #2')
+    // return 'VERY ' + value
+    throw 'sorry in # 2'
+})
+.then(value => {
+    console.log('in then #3')
+    console.log(value)
+})
+.catch( reason => {
+    console.log('CAUGHT',reason)
+})
+
+console.log(p1)
+</script>
+</body>
+</html>
